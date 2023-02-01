@@ -78,6 +78,7 @@ class CalculatorViewController: UIViewController {
         stepper.stepValue = 1
         stepper.contentVerticalAlignment = .center
         stepper.contentHorizontalAlignment = .center
+        stepper.addTarget(self, action: #selector(stepperValueChanged), for: .touchUpInside)
         stepper.translatesAutoresizingMaskIntoConstraints = false
         stepper.heightAnchor.constraint(equalToConstant: 29).isActive = true
         stepper.widthAnchor.constraint(equalToConstant: 94).isActive = true
@@ -85,10 +86,12 @@ class CalculatorViewController: UIViewController {
     }()
     
     private var zeroTipButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("0%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.tintColor = #colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1)
+        button.addTarget(self, action: #selector(tipChanged), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 54).isActive = true
         button.widthAnchor.constraint(equalToConstant: 60).isActive = true
@@ -98,20 +101,25 @@ class CalculatorViewController: UIViewController {
     //TODO: button isSelected
     
     private var tenTipButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("10%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.tintColor = #colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1)
+        button.isSelected = true
+        button.addTarget(self, action: #selector(tipChanged), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 54).isActive = true
         return button
     }()
     
     private var twentyTipButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("20%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.tintColor = #colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1)
+        button.addTarget(self, action: #selector(tipChanged), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 54).isActive = true
         return button
@@ -192,7 +200,9 @@ class CalculatorViewController: UIViewController {
         return textField
     }()
     
-    @objc func calculateButtonPressed() {
+    //MARK: - IB Actions
+    
+    @objc func calculateButtonPressed(sender: UIButton) {
         
         let secondVC = ResultViewController()
         
@@ -200,6 +210,19 @@ class CalculatorViewController: UIViewController {
         
     }
     
+    @objc func tipChanged(sender: UIButton) {
+        
+        zeroTipButton.isSelected = false
+        tenTipButton.isSelected = false
+        twentyTipButton.isSelected = false
+        sender.isSelected = true
+    }
+    
+    @objc func stepperValueChanged(sender: UIStepper) {
+        
+    }
+    
+    //MARK: - Setting up UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -226,6 +249,8 @@ class CalculatorViewController: UIViewController {
         middleStackView.addArrangedSubview(secondStackInsideMiddle)
 
     }
+    
+    //MARK: - Constraints
     
     func setConstraints() {
         

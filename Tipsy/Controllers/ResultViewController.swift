@@ -9,6 +9,8 @@ import UIKit
 
 class ResultViewController: UIViewController {
     
+    //MARK: - UI Elements
+    
     private let secondView: UIView = {
         let secondView = UIView()
         secondView.backgroundColor = #colorLiteral(red: 0.7364435792, green: 0.8989037871, blue: 0.9391706586, alpha: 1)
@@ -64,12 +66,15 @@ class ResultViewController: UIViewController {
         
     }()
     
+    //MARK: - IB Actions
     
     @objc func recalculateButtonPressed() {
         
         dismiss(animated: true)
         
     }
+    
+    //MARK: - Setting up UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +88,8 @@ class ResultViewController: UIViewController {
         setConstraints()
 
     }
+    
+    //MARK: - Constraints
     
     func setConstraints() {
         NSLayoutConstraint.activate ([
