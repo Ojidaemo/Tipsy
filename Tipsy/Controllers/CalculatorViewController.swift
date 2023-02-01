@@ -9,6 +9,11 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     
+    var numberOfPeopleToSplit = 2
+    var totalBill = 0.0
+    var tip = 0.10
+    var finalSplit = "0.0"
+    
     //MARK: - UI Elements
     
     lazy var tipsButtons = [zeroTipButton, tenTipButton, twentyTipButton]
@@ -85,7 +90,7 @@ class CalculatorViewController: UIViewController {
         return stepper
     }()
     
-    private var zeroTipButton: UIButton = {
+    private lazy var zeroTipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("0%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
@@ -100,7 +105,7 @@ class CalculatorViewController: UIViewController {
     
     //TODO: button isSelected
     
-    private var tenTipButton: UIButton = {
+    private lazy var tenTipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("10%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
@@ -113,7 +118,7 @@ class CalculatorViewController: UIViewController {
         return button
     }()
     
-    private var twentyTipButton: UIButton = {
+    private lazy var twentyTipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("20%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
@@ -136,7 +141,7 @@ class CalculatorViewController: UIViewController {
         return button
     }()
     
-    private var enterBillLabel: UILabel = {
+    private lazy var enterBillLabel: UILabel = {
         let label = UILabel()
         label.text = "Enter bill total"
         label.font = .systemFont(ofSize: 25)
@@ -205,21 +210,42 @@ class CalculatorViewController: UIViewController {
     @objc func calculateButtonPressed(sender: UIButton) {
         
         let secondVC = ResultViewController()
-        
         self.present(secondVC, animated: true)
+                
+        totalBill = Double(billTextField.text!) ?? 0.0
+        
+        let result = (totalBill * (1 + tip)) / Double(numberOfPeopleToSplit)
+        finalSplit = String(format: "%.2f", result)
+        print(finalSplit)
         
     }
     
     @objc func tipChanged(sender: UIButton) {
         
+        billTextField.endEditing(true)
+        
         zeroTipButton.isSelected = false
         tenTipButton.isSelected = false
         twentyTipButton.isSelected = false
         sender.isSelected = true
+        
+        let titleValueMinusLast = String(sender.currentTitle!.dropLast(1))
+        tip = Double(titleValueMinusLast)! / 100
     }
     
     @objc func stepperValueChanged(sender: UIStepper) {
         
+        splitNumberLabel.text = String(Int(sender.value))
+        numberOfPeopleToSplit = Int(sender.value)
+        
+    }
+    
+    //MARK: - Other methods
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+                
     }
     
     //MARK: - Setting up UI
