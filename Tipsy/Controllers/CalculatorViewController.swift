@@ -9,6 +9,8 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     
+    //MARK: - UI Elements
+    
     lazy var tipsButtons = [zeroTipButton, tenTipButton, twentyTipButton]
     
     private let secondView: UIView = {
@@ -34,7 +36,7 @@ class CalculatorViewController: UIViewController {
         middleStack.axis = .vertical
         middleStack.distribution = .fill
         middleStack.alignment = .center
-        middleStack.spacing = 26
+        middleStack.spacing = 10
         middleStack.translatesAutoresizingMaskIntoConstraints = false
         
         return middleStack
@@ -54,6 +56,34 @@ class CalculatorViewController: UIViewController {
         
     }()
     
+    private lazy var secondStackInsideMiddle: UIStackView = {
+        
+        let firstStack = UIStackView()
+        firstStack.axis = .horizontal
+        firstStack.distribution = .fill
+        firstStack.alignment = .fill
+        firstStack.contentMode = .scaleToFill
+        firstStack.spacing = 27
+        firstStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        return firstStack
+        
+    }()
+    
+    private var splitNumberStepper: UIStepper = {
+        let stepper = UIStepper()
+        stepper.value = 2
+        stepper.minimumValue = 1
+        stepper.maximumValue = 25
+        stepper.stepValue = 1
+        stepper.contentVerticalAlignment = .center
+        stepper.contentHorizontalAlignment = .center
+        stepper.translatesAutoresizingMaskIntoConstraints = false
+        stepper.heightAnchor.constraint(equalToConstant: 29).isActive = true
+        stepper.widthAnchor.constraint(equalToConstant: 94).isActive = true
+        return stepper
+    }()
+    
     private var zeroTipButton: UIButton = {
        let button = UIButton()
         button.setTitle("0%", for: .normal)
@@ -65,13 +95,13 @@ class CalculatorViewController: UIViewController {
         return button
     }()
     
+    //TODO: button isSelected
+    
     private var tenTipButton: UIButton = {
        let button = UIButton()
         button.setTitle("10%", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 35)
-        button.isSelected = true
-        button.isEnabled = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 54).isActive = true
         return button
@@ -97,7 +127,7 @@ class CalculatorViewController: UIViewController {
         return button
     }()
     
-    private var enterBill: UILabel = {
+    private var enterBillLabel: UILabel = {
         let label = UILabel()
         label.text = "Enter bill total"
         label.font = .systemFont(ofSize: 25)
@@ -109,13 +139,40 @@ class CalculatorViewController: UIViewController {
         
     }()
     
-    private var selectTip: UILabel = {
+    private var selectTipLabel: UILabel = {
         let label = UILabel()
         label.text = "Select tip"
         label.font = .systemFont(ofSize: 25)
         label.textColor = .lightGray
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+        
+    }()
+    
+    private var chooseSplitLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Choose split"
+        label.font = .systemFont(ofSize: 25)
+        label.textColor = .lightGray
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+        
+    }()
+    
+    private var splitNumberLabel: UILabel = {
+        let label = UILabel()
+        label.text = "2"
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 35)
+        label.textColor = #colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1)
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: 29).isActive = true
+        label.widthAnchor.constraint(equalToConstant: 93).isActive = true
         
         return label
         
@@ -150,10 +207,14 @@ class CalculatorViewController: UIViewController {
     }
     
     func addToStack() {
-        topStackView.addArrangedSubview(enterBill)
+        topStackView.addArrangedSubview(enterBillLabel)
         topStackView.addArrangedSubview(billTextField)
-        middleStackView.addArrangedSubview(selectTip)
+        secondStackInsideMiddle.addArrangedSubview(splitNumberLabel)
+        secondStackInsideMiddle.addArrangedSubview(splitNumberStepper)
+        middleStackView.addArrangedSubview(selectTipLabel)
         middleStackView.addArrangedSubview(firstStackInsideMiddle)
+        middleStackView.addArrangedSubview(chooseSplitLabel)
+        middleStackView.addArrangedSubview(secondStackInsideMiddle)
 
     }
     
@@ -169,9 +230,14 @@ class CalculatorViewController: UIViewController {
             middleStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             middleStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
             
-            selectTip.heightAnchor.constraint(equalToConstant: 30),
-            selectTip.leadingAnchor.constraint(equalTo: middleStackView.leadingAnchor,constant: 30),
-            selectTip.trailingAnchor.constraint(equalTo: middleStackView.trailingAnchor,constant: -30),
+            selectTipLabel.heightAnchor.constraint(equalToConstant: 30),
+            selectTipLabel.topAnchor.constraint(equalTo: middleStackView.topAnchor),
+            selectTipLabel.leadingAnchor.constraint(equalTo: middleStackView.leadingAnchor,constant: 30),
+            selectTipLabel.trailingAnchor.constraint(equalTo: middleStackView.trailingAnchor,constant: -30),
+            
+            chooseSplitLabel.heightAnchor.constraint(equalToConstant: 30),
+            chooseSplitLabel.leadingAnchor.constraint(equalTo: middleStackView.leadingAnchor,constant: 30),
+            chooseSplitLabel.trailingAnchor.constraint(equalTo: middleStackView.trailingAnchor,constant: -30),
             
             firstStackInsideMiddle.leadingAnchor.constraint(equalTo: middleStackView.leadingAnchor),
             firstStackInsideMiddle.trailingAnchor.constraint(equalTo: middleStackView.trailingAnchor),
@@ -182,9 +248,9 @@ class CalculatorViewController: UIViewController {
             secondView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             secondView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            enterBill.heightAnchor.constraint(equalToConstant: 30),
-            enterBill.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            enterBill.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            enterBillLabel.heightAnchor.constraint(equalToConstant: 30),
+            enterBillLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            enterBillLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             
             billTextField.heightAnchor.constraint(equalToConstant: 48),
             billTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
