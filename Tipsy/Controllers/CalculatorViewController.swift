@@ -117,13 +117,14 @@ class CalculatorViewController: UIViewController {
         return button
     }()
     
-    private var calculateButton: UIButton = {
+    private lazy var calculateButton: UIButton = {
        let button = UIButton()
         button.setTitle("Calculate", for: .normal)
         button.backgroundColor = #colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1)
         button.titleLabel?.font = .systemFont(ofSize: 35)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(calculateButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -191,6 +192,14 @@ class CalculatorViewController: UIViewController {
         return textField
     }()
     
+    @objc func calculateButtonPressed() {
+        
+        let secondVC = ResultViewController()
+        
+        self.present(secondVC, animated: true)
+        
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -231,7 +240,7 @@ class CalculatorViewController: UIViewController {
             middleStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
             
             selectTipLabel.heightAnchor.constraint(equalToConstant: 30),
-            selectTipLabel.topAnchor.constraint(equalTo: middleStackView.topAnchor),
+            selectTipLabel.topAnchor.constraint(equalTo: middleStackView.topAnchor, constant: 5),
             selectTipLabel.leadingAnchor.constraint(equalTo: middleStackView.leadingAnchor,constant: 30),
             selectTipLabel.trailingAnchor.constraint(equalTo: middleStackView.trailingAnchor,constant: -30),
             
