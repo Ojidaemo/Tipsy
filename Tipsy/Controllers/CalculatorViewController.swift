@@ -75,7 +75,7 @@ class CalculatorViewController: UIViewController {
         
     }()
     
-    private var splitNumberStepper: UIStepper = {
+    private lazy var splitNumberStepper: UIStepper = {
         let stepper = UIStepper()
         stepper.value = 2
         stepper.minimumValue = 1
@@ -210,13 +210,18 @@ class CalculatorViewController: UIViewController {
     @objc func calculateButtonPressed(sender: UIButton) {
         
         let secondVC = ResultViewController()
-        self.present(secondVC, animated: true)
-                
+                        
         totalBill = Double(billTextField.text!) ?? 0.0
+        print(totalBill)
         
         let result = (totalBill * (1 + tip)) / Double(numberOfPeopleToSplit)
         finalSplit = String(format: "%.2f", result)
-        print(finalSplit)
+        
+        secondVC.finalSplit = finalSplit
+        secondVC.numberOfPeople = numberOfPeopleToSplit
+        secondVC.tipAmount = Int(tip * 100)
+        
+        self.present(secondVC, animated: true)
         
     }
     
@@ -327,16 +332,5 @@ class CalculatorViewController: UIViewController {
         ])
         
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

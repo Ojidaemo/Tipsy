@@ -58,7 +58,6 @@
 		87616F17298999720043E4C4 /* Tipsy */ = {
 			isa = PBXGroup;
 			children = (
-				87616F35298ABC320043E4C4 /* Model */,
 				87616F3429899B1A0043E4C4 /* Controllers */,
 				87616F3329899B0D0043E4C4 /* View */,
 				87616F3229899AEE0043E4C4 /* SupportingFiles */,
@@ -93,13 +92,6 @@
 				87616F3029899ADC0043E4C4 /* ResultViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		87616F35298ABC320043E4C4 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

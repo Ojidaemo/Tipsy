@@ -9,6 +9,10 @@ import UIKit
 
 class ResultViewController: UIViewController {
     
+    var finalSplit = "0.0"
+    var numberOfPeople = 2
+    var tipAmount = 10
+    
     //MARK: - UI Elements
     
     private let secondView: UIView = {
@@ -33,7 +37,7 @@ class ResultViewController: UIViewController {
     
     private lazy var totalLabel: UILabel = {
         let label = UILabel()
-        label.text = "0.0"
+        label.text = finalSplit
         label.textColor = #colorLiteral(red: 0, green: 0.6901960784, blue: 0.4196078431, alpha: 1)
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 45)
@@ -53,9 +57,9 @@ class ResultViewController: UIViewController {
         
     }()
     
-    private var settingsLabel: UILabel = {
+    private lazy var settingsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Split between bla-bla-bla with 10% split"
+        label.text = "Split between \(numberOfPeople) people, with \(tipAmount)% split"
         label.font = .systemFont(ofSize: 25)
         label.textColor = .lightGray
         label.textAlignment = .center
@@ -119,16 +123,4 @@ class ResultViewController: UIViewController {
             
         ])
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
